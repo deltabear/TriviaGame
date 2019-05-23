@@ -5,3 +5,12 @@ body {
     background-image: url("../images/green_dust_scratch_@2X.png");
     background-repeat: repeat;
    }
+
+button{
+    width:200px;
+    height: 40px;
+}
+
+#time-left{
+ font-size: 20px;
+}
