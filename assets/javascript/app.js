@@ -23,10 +23,16 @@ var questions =
     q1: ["In what year did The Transformers cartoon premier?"],
      answers1:
             [{
-            'a':'b',
-            'c':'d',
-            'e':'f',
-            'g':'h',
+            a:'b',
+            c:'d',
+            e:'f',
+            g:'h',
+            }],
+    q2: ["Who provided the voice for Arcee, the first female Transformer?"],
+    answers2:
+            [{
+            a: 'b2',
+            c: 'd2',      
             }]
 };
 
@@ -36,7 +42,7 @@ var intervalId;
 
 /*Functions */
 //test
-console.log(questions.answers1[0].c);
+console.log(questions.q2);
 
 function startGame(){
 } function gamePlay(){
@@ -47,17 +53,26 @@ function startGame(){
 }
 function quest1()
 {
+    //create new div and place inside startBtn
     var newDiv = $('<div class="quest q1">');
     newDiv.html(questions.q1);
-
-    $('.btnContainer').apppend(newDiv);
+    $('#time-left').apppend(newDiv);
     intervalID = setInterval(timeCount,1000);
 }
 function timeCount(){
+    var timeDiv = $('<div class="time-left">')
+    timeDiv.html('Time Remaining:' + time);
+    $('#time-left').apppend(timeDiv);
+
     time--;
     //test
     console.log(time);
     //clears and stops time
+    $('div').remove('.time-left')
     if(time === 0)
-    {}
+    {
+        clearInterval(intervalId);
+        //debug
+        console.log(true);
+    }
 }
