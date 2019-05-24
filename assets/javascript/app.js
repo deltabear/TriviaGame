@@ -11,10 +11,13 @@
 // On FINAL SCREEN show player the number of correct and incorrect answers, AND option to restart game
 
 function fiveSeconds() {
-    $("#time-left").append("<h2>This is a test.</h2>");
+    $("time-left").append("<h2>This is a test.</h2>");
     console.log("Hello World!");
   }
 
+$('button').click(function(){
+    console.log("This is a test!")
+});
 //Variables
 var time = 30;
 var score = 0;
@@ -44,37 +47,4 @@ var intervalId;
 
 /*Functions */
 //test
-console.log(questions.q2);
-
-function startGame(){
-} function gamePlay(){
-    $('.startBtn').on('click', function(){
-        $('button').remove('.startBtn');
-        quest1(); 
-    });
-}
-function quest1()
-{
-    //create new div and place inside startBtn
-    var newDiv = $('<div class="quest q1">');
-    newDiv.html(questions.q1);
-    $('#time-left').apppend(newDiv);
-    intervalID = setInterval(timeCount,1000);
-}
-function timeCount(){
-    var timeDiv = $('<div class="time-left">')
-    timeDiv.html('Time Remaining:' + time);
-    $('#time-left').apppend(timeDiv);
-
-    time--;
-    //test
-    console.log(time);
-    //clears and stops time
-    $('div').remove('.time-left')
-    if(time === 0)
-    {
-        clearInterval(intervalId);
-        //debug
-        console.log(true);
-    }
-}
+console.log(questions.q2)
