@@ -32,7 +32,9 @@ var questions =
     answers2:
             [{
             a: 'b2',
-            c: 'd2',      
+            c: 'd2',
+            e:'f2',
+            g:'h2',
             }]
 };
 
