@@ -11,13 +11,26 @@
 // On FINAL SCREEN show player the number of correct and incorrect answers, AND option to restart game
 $(document).ready(function(){
 
-    $('button').click(function(){
+    $("#start").click(function(){
     trivia.startGame});
     })
 
     //Variables
     var score = 0;
     var time = 20;
+
+    //select all elements
+    const start = document.getElementById("start"); 
+    const quiz = document.getElementById("quiz");
+    const question = document.getElementById("question");
+    const choiceA = document.getElementById("A"); 
+    const choiceB = document.getElementById("B"); 
+    const choiceC = document.getElementById("C"); 
+    const choiceD = document.getElementById("D"); 
+    const counter = document.getElementById("counter"); 
+    const timeGauge = document.getElementById("timeGauge"); 
+    const progress = document.getElementById("progress");   
+    const scoreDiv = document.getElementById("score");
 
     //questions and answers data
     let questions = 
@@ -29,7 +42,7 @@ $(document).ready(function(){
                 B: '1984',
                 C: '1980',
                 D: '1985',
-                answer: 'b',
+                answer: 'B',
                 }],
         q2: ["Who provided the voice for Arcee, the first female Transformer in the 1986 movie?"],
         choices2:
@@ -38,7 +51,7 @@ $(document).ready(function(){
                 B: 'June Foray',
                 C: 'Susan Blu',
                 D: 'Lucille Bliss',
-                answer: 'c',
+                answer: 'C',
                 }], 
     };
 
@@ -48,16 +61,68 @@ $(document).ready(function(){
     function renderQuestion(){
         let q = questions[runningQuestionIndex];
         question.innerHTML = "<p>" + q.question + "</p>";
-        choiceA.innerHTML = q1.choices1.a;
-        choiceB.innerHTML = q1.choices1.b;
-        choiceC.innerHTML = q1.choices1.c;
-        choiceD.innerHTML = q1.choices1.d;
+        choiceA.innerHTML = q1.choices1.A;
+        choiceB.innerHTML = q1.choices1.B;
+        choiceC.innerHTML = q1.choices1.C;
+        choiceD.innerHTML = q1.choices1.D;
     }
 
-    var correctAnswers;
-    var wrongAnswers;[]
-    var intervalId;
+    //counter render
+    const questionTime = 20;
+    const gaugeWidth = 150
+    let count = 0;
+    const gaugeProgressUnit = gaugeWidth/questionTime;
 
-/*Functions */
-//test
-//console.log(questions.q2)
+    function counterRender(){
+        if( count <= questionTime){
+            counterRender.innerHTML = count;
+            timeGauge.style.width = gaugeProgressUnit * count + "px";
+            count++;
+        } else{
+            count = 0;
+            answerIsWrong();
+            if (runningQuestionIndex < lastQuestionIndex){
+                runningQuestionIndex++;
+                questionRender();
+            }else{ clearInterval(TIMER);
+            }
+        }
+    }
+
+    function checkAnswer(answer){
+        if(questions[runningQuestionIndex].correct == answer){
+            score++;
+            answerIsCorrect();
+        }else{
+            answerIsWrong();
+        }
+        if(runningQuestionIndex < lastQuestionIndex){
+            count = 0;
+            runningQuestionIndex++;
+            questionRender();
+        }else{
+            clearInterval(TIMER);
+            scoreRender();
+            }
+        }
+
+//Start Quiz
+
+const start = document.getElementById("#start");
+start.addEventListener("click", startQuiz );
+
+function startQuiz(){
+    start.style.display = "none";
+    counterRender();
+    TIMER = setInterval(counterRender,2*1000);
+    progressRender();
+    questionRender();
+    quiz.style.display = "block";
+}
+
+//Score Render
+function scoreRender(){
+    ServiceWorkerContainer.style.display = "block";
+    let scorePerCent = Math.round(100 * score / questions.length);
+    scoreContainer.innerHTML = "<p>"+ scorePerCent +"</p>"
+}
