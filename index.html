@@ -1,34 +1,42 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <title>Transformers Trivia Game</title>
-  <link rel="stylesheet" href="assets\css\style.css">
-</head>
+    <head>
+      <title>Transformers Trivia Game</title>
+      <link rel="stylesheet" href="assets\css\style.css">
+    </head>
 
-<body>
-<div class="mainContainer">
-  <h1>Transformers Trivia</h1>
+    <body>
+      <div class="mainContainer">
+        <h1>Transformers Trivia</h1>
 
-  <div class="time-left"></div>
-  
-  <div class="startBtn">
-    <button type="button">START</button>
-  </div>
+        <div class="time-left"></div>
+        
+        <div class="startBtn">
+          <button type="button">Start Quiz!</button>
+        </div>
 
+        <div id="quiz" style = "display: none;">
+          <div id="question"><p>Question</p> </div>
+            <div id="timer">
+              <div id="counter">20</div>
+              <div id="btimeGauge"></div>
+              <div id="timeGauge"></div>
+            </div>
+            <div id="choices">
+              <div class="choice" id="A" onclick="checkAnswer('A')">A</div>
+              <div class="choice" id="B" onclick="checkAnswer('B')">B</div>
+              <div class="choice" id="C" onclick="checkAnswer('C')">C</div>
+              <div class="choice" id="D" onclick="checkAnswer('D')">D</div>
+            </div>
 
-  
-  <p class="score"></p>
-  <p class="question"></p>
-    
+        </div>  
+      <div id="scoreContainer" style = "display: none;"></div>
+    </div>
 
-</div>
-
-
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<!-- Script -->
-<script src="assets/javascript/app.js"></script>
-</body>
-
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <!-- Script -->
+  <script src="assets/javascript/app.js"></script>
+  </body>
 </html>
