@@ -10,41 +10,44 @@
   </head>
 
     <body>
+    <div class="container">
       <div class="jumbotron">
         <h1 class="display-4">Transformers Trivia</h1>
         <p class="lead">Do you have the knowledge to get the perfect score?</p>
-      </div>
+        <hr class="my-4">
+
+        <div id="game">
+          <p id="remaining-time" class="lead">Remaining Time: <span id="timer"></span></p>
+          <p id="question" class="lead"></p>
+        </div>
         
-          <div id="start">Start Quiz!
+        <div id="results">
         </div>
 
-        <div id="quiz" style = "display: none;">
-          <div id="question"><p>Question</p> </div>
-            <div id="timer">
-              <div id="counter">20</div>
-              <div id="btimeGauge"></div>
-              <div id="timeGauge"></div>
-            </div>
-            <div id="choices">
-              <div class="choice" id="A" onclick="checkAnswer('A')">A</div>
-              <div class="choice" id="B" onclick="checkAnswer('B')">B</div>
-              <div class="choice" id="C" onclick="checkAnswer('C')">C</div>
-              <div class="choice" id="D" onclick="checkAnswer('D')">D</div>
-            </div>
-
-        </div>  
-      <div id="scoreContainer" style = "display: none;"></div>
-    </div>
-
+      <div class="row">
+        <div id="choices" class="text-center">
+          <button id="start" class="btn btn-info btn-lg">Start Game</button>
+          <div id="options">
+            
+          </div>
+          
+        </div>
+      </div>
+      </div>
+    </div> <!-- /container -->
+  </div>
     <footer>
       Created by E. Delzer 2019
     </footer>
+  </div>
+
+    
 
   <!-- jQuery CDN -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <!-- Bootstrap CDN -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <!-- Script -->
+  <!-- App Script -->
   <script src="assets/javascript/app.js"></script>
   </body>
 </html>
