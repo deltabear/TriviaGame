@@ -10,6 +10,12 @@ body {
     padding: 2em 2rem;
 }
 
+.btn-info {
+    justify-content: center;
+    color: #fff;
+    background-color: #398ad6;
+    border-color: #398ad6;}
+    
 img {
     height: 250px;
     width: auto;
