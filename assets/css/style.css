@@ -37,11 +37,15 @@ img {
 
 footer {
     position: absolute;
-    padding: 10px;
     bottom: 0;
     width: 100%;
-    font-size: 16px;
     color: #cccccc;
     text-align: center;
     background: #393a5c;
+}
+
+@media (max-width: 320px) {
+    footer {
+        display: none;
+    }
 }
