@@ -189,6 +189,7 @@ $(document).ready(function(){
             // remove the options and results
             $('.option').remove();
             $('#results h3').remove();
+            $('#results img').remove();
             
             // begin next question
             trivia.nextQuestion();
