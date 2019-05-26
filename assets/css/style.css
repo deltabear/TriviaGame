@@ -5,8 +5,14 @@ body {
     background-repeat: repeat;
 }
 
-.jumbotron{ 
+.jumbotron{
+    margin-top: 25px;
     padding: 2em 2rem;
+}
+
+img {
+    height: 200px;
+    width: auto;
 }
 
 .text-muted{
@@ -24,7 +30,6 @@ body {
 .row {
     justify-content: center;    
 }
-
 
 .option{
     margin: 15px;
