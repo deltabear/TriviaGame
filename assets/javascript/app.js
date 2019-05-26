@@ -166,7 +166,7 @@ $(document).ready(function(){
             trivia.correct++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 5*1000);
-            $('#results').html('<h3>Correct Answer!</h3>');
+            $('#results').html('<h3>Correct Answer!</h3>' + '<p><img src="'+ Object.values(trivia.answerImages)[trivia.currentSet]+'"></p>');
             }
             // else the user picked the wrong option, increment incorrect
             else{
@@ -176,7 +176,7 @@ $(document).ready(function(){
             trivia.incorrect++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 5*1000);
-            $('#results').html('<h3>Better luck next time! The answer was '+ currentAnswer +'</h3>');
+            $('#results').html('<h3>Better luck next time! The answer was '+ currentAnswer + '<p><img src="'+ Object.values(trivia.answerImages)[trivia.currentSet]+'"></p>'+'</h3>');
             }
             
         },
