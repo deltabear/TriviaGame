@@ -9,120 +9,190 @@
 // IF player chooses incorrect answer, inform player that answer was wrong AND display correct answer for several
 // seconds
 // On FINAL SCREEN show player the number of correct and incorrect answers, AND option to restart game
+    
 $(document).ready(function(){
-
-    $("#start").click(function(){
-    trivia.startGame});
-    })
-
-    //Variables
-    var score = 0;
-    var time = 20;
-
-    //select all elements
-    const start = document.getElementById("start"); 
-    const quiz = document.getElementById("quiz");
-    const question = document.getElementById("question");
-    const choiceA = document.getElementById("A"); 
-    const choiceB = document.getElementById("B"); 
-    const choiceC = document.getElementById("C"); 
-    const choiceD = document.getElementById("D"); 
-    const counter = document.getElementById("counter"); 
-    const timeGauge = document.getElementById("timeGauge"); 
-    const progress = document.getElementById("progress");   
-    const scoreDiv = document.getElementById("score");
+  
+    // event listeners
+    $("#remaining-time").hide();
+    $("#start").on('click', trivia.startGame);
+    $(document).on('click' , '.option', trivia.guessChecker);
+    
+  })
 
     //questions and answers data
-    let questions = 
+    let trivia = 
     {
-        q1: ["In what year did The Transformers cartoon premier?"],
-        choices1:
-                [{
-                A: '1989',
-                B: '1984',
-                C: '1980',
-                D: '1985',
-                answer: 'B',
-                }],
-        q2: ["Who provided the voice for Arcee, the first female Transformer in the 1986 movie?"],
-        choices2:
-                [{
-                A: 'Tress MacNeille',
-                B: 'June Foray',
-                C: 'Susan Blu',
-                D: 'Lucille Bliss',
-                answer: 'C',
-                }], 
-    };
+        correct: 0,
+        incorrect: 0,
+        unanswered: 0,
+        currentSet: 0,
+        timer: 20,
+        timerOn: false,
+        timerId : '',
+        //Questions and Answers
+        questions: {
+            q1: 'In what year did The Transformers cartoon premier?',
+            q2: 'Who provided the voice for Arcee in the 1986 movie?',
+            q3: 'What was the name of the sequel series to the first Transformers cartoon?',
+            q4: 'Who is the character usually seen leading the Autobots?',
+            q5: 'This live-action Transformers flick directed by Travis Knight shares the name of the Autobot starring in it. The film is:'
+        },
+        choices: {
+            q1: ['1989', '1984', '1980', '1985'],
+            q2: ['Tress MacNeille','June Foray', 'Susan Blu','Lucille Bliss'],
+            q3: ['Beast Wars', 'Transformers Gen 2', 'Beast Machines', 'Armada'],
+            q4: ['Ultra Magnus', 'Optimal Prime', 'Omega Supreme', 'Optimus Prime'],
+            q5: ['Waspinator', 'Honeybee', 'Bumblebee', 'Ant-man and the Waspinator']
+        },
+        answers: {
+            q1: '1984',
+            q2: 'Susan Blu',
+            q3: 'Beast Wars',
+            q4: 'Optimus Prime',
+            q5: 'Bumblebee'
+        },
+        answerImages: {
+            q1: '',
+            q2: '',
+            q3: '',
+            q4: '',
+            q5: '',
+        },
+         // trivia methods
+        // method to initialize game
+        startGame: function(){
+            // restarting game results
+            trivia.currentSet = 0;
+            trivia.correct = 0;
+            trivia.incorrect = 0;
+            trivia.unanswered = 0;
+            clearInterval(trivia.timerId);
+    
+            // show game section
+            $('#game').show();
+    
+            //  empty last results
+            $('#results').html('');
+            
+            // show timer
+            $('#timer').text(trivia.timer);
+            
+            // remove start button
+            $('#start').hide();
 
-    let lastQuestionIndex = questions.length - 1;
-    let runningQuestionIndex = 0;
-
-    function renderQuestion(){
-        let q = questions[runningQuestionIndex];
-        question.innerHTML = "<p>" + q.question + "</p>";
-        choiceA.innerHTML = q1.choices1.A;
-        choiceB.innerHTML = q1.choices1.B;
-        choiceC.innerHTML = q1.choices1.C;
-        choiceD.innerHTML = q1.choices1.D;
+            $('#remaining-time').show();
+    
+            // ask first question
+            trivia.nextQuestion();
+    
+        },
+        // method to loop through and display questions and options 
+        nextQuestion : function(){
+            
+            // set timer to 20 seconds each question
+            trivia.timer = 20;
+            $('#timer').removeClass('last-seconds');
+            $('#timer').text(trivia.timer);
+            
+            // to prevent timer speed up
+            if(!trivia.timerOn){
+            trivia.timerId = setInterval(trivia.timerRunning, 1000);
+            }
+            
+            // gets all the questions then indexes the current questions
+            var questionContent = Object.values(trivia.questions)[trivia.currentSet];
+            $('#question').text(questionContent);
+            
+            // an array of all the user choices for the current question
+            var questionChoices = Object.values(trivia.choices)[trivia.currentSet];
+            
+            // creates all the trivia guess options in the html
+            $.each(questionChoices, function(index, key){
+            $('#choices').append($('<button class="option btn btn-info btn-lg">'+key+'</button>'));
+            })
+            
+        },
+        // method to decrement counter and count unanswered if timer runs out
+        timerRunning : function(){
+            // if timer still has time left and there are still questions left to ask
+            if(trivia.timer > -1 && trivia.currentSet < Object.keys(trivia.questions).length){
+            $('#timer').text(trivia.timer);
+            trivia.timer--;
+                if(trivia.timer === 4){
+                $('#timer').addClass('last-seconds');
+                }
+            }
+            // the time has run out and increment unanswered, run result
+            else if(trivia.timer === -1){
+            trivia.unanswered++;
+            trivia.result = false;
+            clearInterval(trivia.timerId);
+            resultId = setTimeout(trivia.guessResult, 5*1000);
+            $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers)[trivia.currentSet] +'</h3>');
+            }
+            // if all the questions have been shown end the game, show results
+            else if(trivia.currentSet === Object.keys(trivia.questions).length){
+            
+            // adds results of game (correct, incorrect, unanswered) to the page
+            $('#results')
+                .html('<h3>Thank you for playing!</h3>'+
+                '<p>Correct: '+ trivia.correct +'</p>'+
+                '<p>Incorrect: '+ trivia.incorrect +'</p>'+
+                '<p>Unaswered: '+ trivia.unanswered +'</p>'+
+                '<p>Please play again!</p>');
+            
+            // hide game sction
+            $('#game').hide();
+            
+            // show start button to begin a new game
+            $('#start').show();
+            }
+            
+        },
+        // method to evaluate the option clicked
+        guessChecker : function() {
+            
+            // timer ID for gameResult setTimeout
+            var resultId;
+            
+            // the answer to the current question being asked
+            var currentAnswer = Object.values(trivia.answers)[trivia.currentSet];
+            
+            // if the text of the option picked matches the answer of the current question, increment correct
+            if($(this).text() === currentAnswer){
+            // turn button green for correct
+            $(this).addClass('btn-success').removeClass('btn-info');
+            
+            trivia.correct++;
+            clearInterval(trivia.timerId);
+            resultId = setTimeout(trivia.guessResult, 5*1000);
+            $('#results').html('<h3>Correct Answer!</h3>');
+            }
+            // else the user picked the wrong option, increment incorrect
+            else{
+            // turn button clicked red for incorrect
+            $(this).addClass('btn-danger').removeClass('btn-info');
+            
+            trivia.incorrect++;
+            clearInterval(trivia.timerId);
+            resultId = setTimeout(trivia.guessResult, 5*1000);
+            $('#results').html('<h3>Better luck next time! '+ currentAnswer +'</h3>');
+            }
+            
+        },
+        // method to remove previous question results and options
+        guessResult : function(){
+            
+            // increment to next question set
+            trivia.currentSet++;
+            
+            // remove the options and results
+            $('.option').remove();
+            $('#results h3').remove();
+            
+            // begin next question
+            trivia.nextQuestion();
+            
     }
 
-    //counter render
-    const questionTime = 20;
-    const gaugeWidth = 150
-    let count = 0;
-    const gaugeProgressUnit = gaugeWidth/questionTime;
-
-    function counterRender(){
-        if( count <= questionTime){
-            counterRender.innerHTML = count;
-            timeGauge.style.width = gaugeProgressUnit * count + "px";
-            count++;
-        } else{
-            count = 0;
-            answerIsWrong();
-            if (runningQuestionIndex < lastQuestionIndex){
-                runningQuestionIndex++;
-                questionRender();
-            }else{ clearInterval(TIMER);
-            }
-        }
-    }
-
-    function checkAnswer(answer){
-        if(questions[runningQuestionIndex].correct == answer){
-            score++;
-            answerIsCorrect();
-        }else{
-            answerIsWrong();
-        }
-        if(runningQuestionIndex < lastQuestionIndex){
-            count = 0;
-            runningQuestionIndex++;
-            questionRender();
-        }else{
-            clearInterval(TIMER);
-            scoreRender();
-            }
-        }
-
-//Start Quiz
-
-const start = document.getElementById("#start");
-start.addEventListener("click", startQuiz );
-
-function startQuiz(){
-    start.style.display = "none";
-    counterRender();
-    TIMER = setInterval(counterRender,2*1000);
-    progressRender();
-    questionRender();
-    quiz.style.display = "block";
-}
-
-//Score Render
-function scoreRender(){
-    ServiceWorkerContainer.style.display = "block";
-    let scorePerCent = Math.round(100 * score / questions.length);
-    scoreContainer.innerHTML = "<p>"+ scorePerCent +"</p>"
 }
