@@ -51,6 +51,7 @@ $(document).ready(function(){
             q4: 'Optimus Prime',
             q5: 'Bumblebee'
         },
+        //images that can be called on later
         answerImages: {
             q1: 'assets/images/tf-G1.jpg',
             q2: 'assets/images/Arcee.jpg',
@@ -186,7 +187,7 @@ $(document).ready(function(){
             // increment to next question set
             trivia.currentSet++;
             
-            // remove the options and results
+            // remove the options, results, and images
             $('.option').remove();
             $('#results h3').remove();
             $('#results img').remove();
