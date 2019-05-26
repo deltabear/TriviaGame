@@ -1,6 +1,6 @@
 //Create trivia game
 // Player will press button on start screen that begins Game
-//Ask player timed questions with JavaScript timed events (30 seconds)
+//Ask player timed questions with JavaScript timed events (15 seconds)
     //Question is shown until user answers or time runs out
     //IF player selects correct answer, congratulations screen for several seconds
     // after which the next question will be displayed w/o user input
