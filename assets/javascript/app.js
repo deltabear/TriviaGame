@@ -26,7 +26,7 @@ $(document).ready(function(){
         incorrect: 0,
         unanswered: 0,
         currentSet: 0,
-        timer: 20,
+        timer: 15,
         timerOn: false,
         timerId : '',
         //Questions and Answers
@@ -52,11 +52,11 @@ $(document).ready(function(){
             q5: 'Bumblebee'
         },
         answerImages: {
-            q1: '',
-            q2: '',
-            q3: '',
-            q4: '',
-            q5: '',
+            q1: 'assets/images/tf-G1.jpg',
+            q2: 'assets/images/Arcee.jpg',
+            q3: 'assets/images/beastWars.jpg',
+            q4: 'assets/images/TF-OP.jpg',
+            q5: 'assets/images/bumblebee.jpg',
         },
          // trivia methods
         // method to initialize game
@@ -89,8 +89,8 @@ $(document).ready(function(){
         // method to loop through and display questions and options 
         nextQuestion : function(){
             
-            // set timer to 20 seconds each question
-            trivia.timer = 20;
+            // set timer to 15 seconds each question
+            trivia.timer = 15;
             $('#timer').removeClass('last-seconds');
             $('#timer').text(trivia.timer);
             
@@ -128,7 +128,7 @@ $(document).ready(function(){
             trivia.result = false;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 5*1000);
-            $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers)[trivia.currentSet] +'</h3>');
+            $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers)[trivia.currentSet] + '<p><img src="'+ Object.values(trivia.answerImages)[trivia.currentSet]+'"></p>'+'</h3>');
             }
             // if all the questions have been shown end the game, show results
             else if(trivia.currentSet === Object.keys(trivia.questions).length){
@@ -176,7 +176,7 @@ $(document).ready(function(){
             trivia.incorrect++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 5*1000);
-            $('#results').html('<h3>Better luck next time! '+ currentAnswer +'</h3>');
+            $('#results').html('<h3>Better luck next time! The answer was '+ currentAnswer +'</h3>');
             }
             
         },
